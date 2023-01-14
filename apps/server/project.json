@@ -32,7 +32,8 @@
     "serve": {
       "executor": "@nrwl/js:node",
       "options": {
-        "buildTarget": "server:build"
+        "buildTarget": "server:build",
+        "inspect": false
       },
       "configurations": {
         "production": {
