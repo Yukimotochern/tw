@@ -10,11 +10,14 @@
     "importHelpers": true,
     "target": "es2022",
     "module": "esnext",
-    "lib": ["es2017", "dom"],
+    "lib": ["es2022", "dom"],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {},
+    "paths": {
+      "@tw/api": ["libs/api/src/index.ts"],
+      "@tw/server": ["apps/server/src"]
+    },
     "strictNullChecks": true
   },
   "exclude": ["node_modules", "tmp"]

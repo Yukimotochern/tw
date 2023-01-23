@@ -1,35 +1,31 @@
 import { fastify, FastifyServerOptions } from 'fastify';
 import { TypeBoxTypeProvider } from '@fastify/type-provider-typebox';
-import { randomUUID } from 'crypto';
-import { logger } from './logger';
+import { logger, bodyLogger, genReqIdFunctionCreator } from './logger';
+import { fastifyTRPCPlugin } from '@trpc/server/adapters/fastify';
+import { createContext } from './trpc/context';
+import { appRouter } from './trpc/trpc';
 
 export const buildApp = (opts: FastifyServerOptions = {}) => {
   const appOptions: FastifyServerOptions = {
+    /** use pino logger */
     logger,
-    genReqId: (() => {
-      // use closure to store global request serial number when dev locally
-      let initialRequestId = 0;
-      return () =>
-        process.env.NODE_ENV === 'development'
-          ? String(initialRequestId++)
-          : randomUUID();
-    })(),
+    /** generate request id for each request, uuid or serial number string */
+    genReqId: genReqIdFunctionCreator(),
     ...opts,
   };
   const app = fastify(appOptions).withTypeProvider<TypeBoxTypeProvider>();
 
-  // log body
-  app.addHook('preHandler', function (req, reply, done) {
-    const { body } = req;
-    if (body) {
-      req.log.info({ body }, 'parsed body');
-    }
-    done();
+  /** log body if present */
+  app.addHook('preHandler', bodyLogger);
+
+  app.register(fastifyTRPCPlugin, {
+    prefix: '/api/trpc',
+    trpcOptions: { router: appRouter, createContext },
   });
 
-  // routes go here
+  /** routes */
   app.post('/', (req, res) => {
-    res.send('Hello world');
+    return res.send('hi');
   });
 
   return app;

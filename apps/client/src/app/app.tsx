@@ -2,6 +2,7 @@
 import styles from './app.module.css';
 
 import { Route, Routes, Link } from 'react-router-dom';
+import { trpc } from '../trpc/client';
 
 export function App() {
   return (
@@ -20,6 +21,18 @@ export function App() {
           </li>
         </ul>
       </div>
+      <button
+        onClick={async () => {
+          try {
+            const kk = await Promise.all([trpc.kk.ff.query('kjlkjlk')]);
+            console.log(kk);
+          } catch (err) {
+            console.log(err);
+          }
+        }}
+      >
+        trigger api
+      </button>
       <Routes>
         <Route
           path="/"
