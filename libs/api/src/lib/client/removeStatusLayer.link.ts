@@ -109,13 +109,7 @@ type unwrapStatusLayer<Client> = {
   [key in keyof Client]: key extends ProcedureType
     ? Client[key] extends (...rest: infer arguments) => infer response
       ? Awaited<response> & { status: 'ok' } extends { data: infer Data }
-        ? ((...rest: arguments) => Promise<Data>) &
-            (Awaited<response> & { status: 'error' } extends never
-              ? // eslint-disable-next-line @typescript-eslint/ban-types
-                {} // Other recommended types don't work for adding no property
-              : {
-                  error: Awaited<response> & { status: 'error' };
-                })
+        ? (...rest: arguments) => Promise<Data>
         : never
       : never
     : unwrapStatusLayer<Client[key]>;

@@ -30,9 +30,9 @@ export function App() {
         onClick={async () => {
           try {
             const kk = await Promise.all([trpc.kk.ff.query('kjlkjlk')]);
-            const j = await trpc.kk.ff.query('dddd');
+            const j = await trpc.kk.ff.query('kkk');
           } catch (err) {
-            handleError(err).onInvalidOutputError('kk.ff', (e) => {
+            handleError(err).onInvalidInputError('kk.ff', (e) => {
               console.log(e);
             });
           }

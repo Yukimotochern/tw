@@ -1,6 +1,12 @@
 import { get as lodashGet } from 'lodash';
+import { z } from 'zod';
 import { Get } from 'type-fest';
-import { InvalidInputError, InvalidOutputError, API } from '@tw/api';
+import {
+  InvalidInputError,
+  InvalidOutputError,
+  StatusLayerError,
+  API,
+} from '@tw/api';
 import { TRPCClientError } from '@trpc/client';
 import { ApiProcedurePaths } from './handleError.types';
 
@@ -67,9 +73,12 @@ class ErrorHandler {
     return this.runCallbackBasedOnHandleOption(cb, handleOption);
   }
 
-  onInvalidInputError<Path extends ApiProcedurePaths>(
+  onInvalidInputError<
+    Path extends ApiProcedurePaths,
+    InferredCustomeError extends InvalidInputError<Get<API, Path>['input']>
+  >(
     path: Path,
-    cb: (err: InvalidInputError<Get<API, Path>['input']>) => void = voidFunc,
+    cb: (err: InferredCustomeError) => void = voidFunc,
     handleOption: HandleOption = defaultHandleOption
   ) {
     const { err } = this;
@@ -79,7 +88,7 @@ class ErrorHandler {
     const { cause } = err;
     function isInvalidInputError(
       clientError: unknown
-    ): clientError is InvalidInputError<Get<API, Path>['input']> {
+    ): clientError is InferredCustomeError {
       return cause instanceof InvalidInputError;
     }
     if (isInvalidInputError(cause)) {
@@ -88,11 +97,14 @@ class ErrorHandler {
     return this;
   }
 
-  onInvalidOutputError<Path extends ApiProcedurePaths>(
+  onInvalidOutputError<
+    Path extends ApiProcedurePaths,
+    InferredCustomeError extends InvalidOutputError<
+      Get<API, Path>['output']['schema']
+    >
+  >(
     path: Path,
-    cb: (
-      err: InvalidOutputError<Get<API, Path>['output']['schema']>
-    ) => void = voidFunc,
+    cb: (err: InferredCustomeError) => void = voidFunc,
     handleOption: HandleOption = defaultHandleOption
   ) {
     const { err } = this;
@@ -102,10 +114,36 @@ class ErrorHandler {
     const { cause } = err;
     function isInvalidOutputError(
       clientError: unknown
-    ): clientError is InvalidOutputError<Get<API, Path>['output']['schema']> {
+    ): clientError is InferredCustomeError {
       return cause instanceof InvalidOutputError;
     }
     if (isInvalidOutputError(cause)) {
+      return this.runCallbackBasedOnHandleOption(() => cb(cause), handleOption);
+    }
+    return this;
+  }
+
+  onStatusLayerError<
+    Path extends ApiProcedurePaths,
+    InferredCustomeError extends StatusLayerError<
+      Get<API, Path>['output']['schema']
+    >
+  >(
+    path: Path,
+    cb: (err: InferredCustomeError) => void = voidFunc,
+    handleOption: HandleOption = defaultHandleOption
+  ) {
+    const { err } = this;
+    if (!(err instanceof TRPCClientError)) {
+      return this;
+    }
+    const { cause } = err;
+    function isStatusLayerError(
+      clientError: unknown
+    ): clientError is InferredCustomeError {
+      return cause instanceof StatusLayerError;
+    }
+    if (isStatusLayerError(cause)) {
       return this.runCallbackBasedOnHandleOption(() => cb(cause), handleOption);
     }
     return this;
