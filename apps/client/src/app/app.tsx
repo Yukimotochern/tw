@@ -3,10 +3,15 @@ import styles from './app.module.css';
 
 import { Route, Routes, Link } from 'react-router-dom';
 import { trpc } from '../trpc/client';
+import { handleError } from '../trpc/handleError';
+import { useTranslation } from 'react-i18next';
 
 export function App() {
+  const { t } = useTranslation();
+  t('account');
   return (
     <>
+      {}
       <div />
       <br />
       <hr />
@@ -25,9 +30,11 @@ export function App() {
         onClick={async () => {
           try {
             const kk = await Promise.all([trpc.kk.ff.query('kjlkjlk')]);
-            console.log(kk);
+            const j = await trpc.kk.ff.query('dddd');
           } catch (err) {
-            console.log(err);
+            handleError(err).onInvalidOutputError('kk.ff', (e) => {
+              console.log(e);
+            });
           }
         }}
       >

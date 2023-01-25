@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import type { MapApiToTrpcRouter, ProcedureStructure } from './api.types';
-import { response } from './response';
+import { response } from './server/response';
 
 export const api = {
   kk: {
@@ -15,9 +15,15 @@ export const api = {
         .error({
           code: 405,
           message: 'dkjdkj',
-        }).schema,
+        }),
     },
+  },
+  gg: {
+    input: z.number(),
+    output: response(z.boolean()),
   },
 } satisfies ProcedureStructure;
 
-export type API = MapApiToTrpcRouter<typeof api>;
+export type API = typeof api;
+
+export type TrpcRouterConformToApi = MapApiToTrpcRouter<API>;

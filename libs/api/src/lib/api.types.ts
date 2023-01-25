@@ -4,12 +4,12 @@ import {
   ProcedureType,
   ProcedureParams,
   AnyRootConfig,
-  AnyRouter,
 } from '@trpc/server';
+import { Response } from './server/response';
 
-interface ProcedureSchema {
+export interface ProcedureSchema {
   input: ZodTypeAny;
-  output: ZodTypeAny;
+  output: Response<ZodTypeAny>;
 }
 
 export interface ProcedureStructure {
@@ -28,13 +28,10 @@ export type MapApiToTrpcRouter<API extends ProcedureStructure> = {
             unknown,
             z.infer<API[key]['input']>,
             z.infer<API[key]['input']>,
-            z.infer<API[key]['output']>,
-            z.infer<API[key]['output']>
+            z.infer<API[key]['output']['schema']>,
+            z.infer<API[key]['output']['schema']>
           >
         >
       : never
     : never;
-};
-export type RemoveTrpcRouterErrorStatusResponse<AppRouter extends AnyRouter> = {
-  [key in keyof AppRouter]: AnyRouter;
 };

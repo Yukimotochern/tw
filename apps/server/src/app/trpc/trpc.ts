@@ -1,11 +1,19 @@
 import { initTRPC } from '@trpc/server';
 import { Context } from './context';
-import type { API } from '@tw/api';
+import type { TrpcRouterConformToApi } from '@tw/api';
 import { api, okResponse, errorResponse } from '@tw/api';
 import superjson from 'superjson';
 
 const t = initTRPC.context<Context>().create({
   transformer: superjson,
+  errorFormatter({ shape }) {
+    return {
+      ...shape,
+      data: {
+        code: 'skjdkj',
+      },
+    };
+  },
 });
 
 const router = t.router;
@@ -27,7 +35,7 @@ const {
 const publicProcedure = t.procedure
   .use(kk)
   .input(input)
-  .output(output)
+  .output(output.schema)
   .query(({ input }) => {
     if (input === '1223') {
       return errorResponse({
@@ -40,8 +48,6 @@ const publicProcedure = t.procedure
   });
 export const appRouter = router({
   kk: router({ ff: publicProcedure }),
-}) satisfies API;
+}) satisfies TrpcRouterConformToApi;
 
 export type AppRouter = typeof appRouter;
-
-type g = AppRouter['kk'];

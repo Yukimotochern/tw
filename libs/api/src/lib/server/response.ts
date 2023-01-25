@@ -40,15 +40,8 @@ export class Response<ResponseSchema extends z.ZodTypeAny = z.ZodTypeAny> {
             code: z.ZodLiteral<ErrorOptions['code']>;
             message: z.ZodLiteral<ErrorOptions['message']>;
           } & (unknown extends ErrorOptions['errorData']
-            ? /**
-               * Here, we want to add no property if `unknown extends ErrorOptions['errorData']`, which means `errorData` is not given.
-               * @typescript-eslint/ban-types recommends `Record<string, never>`
-               * instead of `{}`. BUT the `never` part will distroy all other
-               * properties, like `status`, `code`, `message` before the `&`
-               * operator. Therefore disable eslint.
-               */
-              // eslint-disable-next-line @typescript-eslint/ban-types
-              {}
+            ? // eslint-disable-next-line @typescript-eslint/ban-types
+              {} // Other recommended types don't work for adding no property
             : { errorData: NonNullable<ErrorOptions['errorData']> })
         >
       ]

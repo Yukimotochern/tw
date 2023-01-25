@@ -7,7 +7,7 @@ import superjson from 'superjson';
 
 /* eslint-disable-next-line @nrwl/nx/enforce-module-boundaries */
 import type { AppRouter } from '@tw/server';
-import { removeStatusLayerLink } from './removeStatusLayer.link';
+import { unwrapStatusLayerLink, unwrapStatusLayerType } from '@tw/api';
 
 export function isTRPCClientError(
   cause: unknown
@@ -17,7 +17,7 @@ export function isTRPCClientError(
 
 export const trpcWithStatusLayer = createTRPCProxyClient<AppRouter>({
   links: [
-    removeStatusLayerLink,
+    unwrapStatusLayerLink,
     httpBatchLink({
       url: '/api/trpc',
     }),
@@ -25,4 +25,4 @@ export const trpcWithStatusLayer = createTRPCProxyClient<AppRouter>({
   transformer: superjson,
 });
 
-export const trpc = trpcWithStatusLayer;
+export const trpc = unwrapStatusLayerType(trpcWithStatusLayer);

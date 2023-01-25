@@ -1,4 +1,4 @@
-# Tw
+# TW: Touch Whale from Taiwan
 
 ✨ **This project will be an open source ERP system** ✨
 This project was generated will Nx monorepo tool and is in the process of drafting. It will stay open source and deploy to GCP for payed customer in the future. This will serve as a playgroud for the creator `Yukimoto` with those new technoledgies. The stack is currently planned as:

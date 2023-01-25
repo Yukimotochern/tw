@@ -18,7 +18,8 @@
       "@tw/api": ["libs/api/src/index.ts"],
       "@tw/server": ["apps/server/src"]
     },
-    "strictNullChecks": true
+    "strictNullChecks": true,
+    "resolveJsonModule": true
   },
   "exclude": ["node_modules", "tmp"]
 }
