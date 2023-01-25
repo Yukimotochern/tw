@@ -18,10 +18,6 @@ export const api = {
         }),
     },
   },
-  gg: {
-    input: z.number(),
-    output: response(z.boolean()),
-  },
 } satisfies ProcedureStructure;
 
 export type API = typeof api;

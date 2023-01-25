@@ -3,7 +3,7 @@ import { AnyRouter, ProcedureType } from '@trpc/server';
 import { observable } from '@trpc/server/observable';
 import { get as lodashGet } from 'lodash';
 import { ZodType } from 'zod';
-import { TrpcRouterConformToApi, api } from '../api';
+import { api } from '../api';
 import {
   wrapWithTRPCClientError,
   InternalClientError,

@@ -16,12 +16,3 @@ type AllPathToPatternInObject<
   : never;
 
 export type ApiProcedurePaths = AllPathToPatternInObject<API, ProcedureSchema>;
-
-// type func = <
-//   TKeys extends AllPathToPatternInObject<typeof aa, { [key: string]: any }>
-// >(
-//   key: TKeys
-// ) => void;
-// // eslint-disable-next-line @typescript-eslint/no-empty-function
-// const fff: func = (key) => {};
-// fff('b');
