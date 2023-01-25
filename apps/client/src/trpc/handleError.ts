@@ -126,7 +126,7 @@ class ErrorHandler {
   onStatusLayerError<
     Path extends ApiProcedurePaths,
     InferredCustomeError extends StatusLayerError<
-      Get<API, Path>['output']['schema']
+      z.infer<Get<API, Path>['output']['schema']> & { status: 'error' }
     >
   >(
     path: Path,
