@@ -57,6 +57,7 @@ specifiers:
   postcss: 8.4.19
   prettier: ^2.8.2
   prettier-plugin-tailwindcss: ^0.2.1
+  prisma: ^4.9.0
   react: 18.2.0
   react-dom: 18.2.0
   react-i18next: ^12.1.4
@@ -144,6 +145,7 @@ devDependencies:
   postcss: 8.4.19
   prettier: 2.8.2
   prettier-plugin-tailwindcss: 0.2.1_prettier@2.8.2
+  prisma: 4.9.0
   react-test-renderer: 18.2.0_react@18.2.0
   tailwindcss: 3.2.4_v776zzvn44o7tpgzieipaairwm
   ts-jest: 28.0.5_wbwvwozc2y7mc7lajarghnsfju
@@ -1846,6 +1848,11 @@ packages:
 
   /@polka/url/1.0.0-next.21:
     resolution: {integrity: sha512-a5Sab1C4/icpTZVzZc5Ghpz88yQtGOyNqYXcZgOssB2uuAr+wF/MvN6bgtW32q7HHrvBki+BsZ0OuNv6EV3K9g==}
+    dev: true
+
+  /@prisma/engines/4.9.0:
+    resolution: {integrity: sha512-t1pt0Gsp+HcgPJrHFc+d/ZSAaKKWar2G/iakrE07yeKPNavDP3iVKPpfXP22OTCHZUWf7OelwKJxQgKAm5hkgw==}
+    requiresBuild: true
     dev: true
 
   /@remix-run/router/1.0.3:
@@ -9161,6 +9168,15 @@ packages:
       ansi-regex: 5.0.1
       ansi-styles: 5.2.0
       react-is: 18.2.0
+    dev: true
+
+  /prisma/4.9.0:
+    resolution: {integrity: sha512-bS96oZ5oDFXYgoF2l7PJ3Mp1wWWfLOo8B/jAfbA2Pn0Wm5Z/owBHzaMQKS3i1CzVBDWWPVnOohmbJmjvkcHS5w==}
+    engines: {node: '>=14.17'}
+    hasBin: true
+    requiresBuild: true
+    dependencies:
+      '@prisma/engines': 4.9.0
     dev: true
 
   /process-nextick-args/2.0.1:
