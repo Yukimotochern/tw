@@ -1,8 +1,8 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
-import en from '../../public/locales/en/translation.json';
-import zh from '../../public/locales/zh/translation.json';
+import en from './en/translation.json';
+import zh from './zh/translation.json';
 
 export const defaultNS = 'en';
 export const resources = {

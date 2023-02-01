@@ -1,0 +1,23 @@
+{
+  "common": {
+    "or": "or",
+    "comma": ", "
+  },
+  "auth": {
+    "main_login": {
+      "title": "Log In as Account Owner",
+      "google_oauth_button": "Log In with Google",
+      "email_label": "Email Adress:",
+      "input_email": "Enter your email address.",
+      "password_label": "Password:",
+      "input_password": "Enter your password.",
+      "sign_up": "Sign Up",
+      "forget_password?": "Forget Password",
+      "staff_login": "Log In as Staff"
+    },
+    "main_login_title": "Log In as Account Owner",
+    "google_oauth_button": "Log In with Google",
+    "input_email": "Enter your email address.",
+    "email_label": "Email Adress:"
+  }
+}
